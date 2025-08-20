@@ -1,0 +1,41 @@
+version: "3.9"
+
+services:
+  zookeeper:
+    image: zookeeper:3.9
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+
+  client1:
+    build: ./app
+    environment:
+      - CLIENT_ID=1
+    container_name: client1
+    depends_on:
+      - zookeeper
+    volumes:
+      - shared-data:/app/data
+
+  client2:
+    build: ./app
+    environment:
+      - CLIENT_ID=2
+    container_name: client2
+    depends_on:
+      - zookeeper
+    volumes:
+      - shared-data:/app/data
+
+  client3:
+    build: ./app
+    environment:
+      - CLIENT_ID=3
+    container_name: client3
+    depends_on:
+      - zookeeper
+    volumes:
+      - shared-data:/app/data
+
+volumes:
+  shared-data:
